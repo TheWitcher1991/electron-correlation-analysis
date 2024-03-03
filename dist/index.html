@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr" theme="light">
+<head>
+    <title>Корреляционный анализ</title>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    <meta name="author" content="alikzoy@gmail.com">
+
+    <link rel="stylesheet" href="./libs/FontAwesome/css/all.min.css">
+    <link rel="stylesheet" href="./libs/ApexCharts/apexcharts.min.css">
+    <link rel="stylesheet" href="./public/font/CirceRounded/CirceRounded.css">
+    <link rel="stylesheet" href="./public/static/style.bundle.css">
+</head>
+<body>
+
+<div class="info__from-pop popup__wrap">
+    <div class="popup__container info__from-container">
+        <form enctype="multipart/form-data" method="post" action="">
+            <div class="form__title">
+                <span class="form__span">О приложении</span>
+                <i class="fa-regular fa-xmark close__info"></i>
+            </div>
+            <div class="file__upload info__block">
+                <img src="./public/img/icon.ico" alt="">
+                <div>
+                    <span>correlation-analysis</span>
+                    <p>build: #1.0.0 03.03.2024</p>
+                    <div>
+                        <span>electron: ^25.5.0</span>
+                        <span>electron-packager: ^17.1.1</span>
+                        <span>npm: 9.6.2</span>
+                        <span>license: GNU GPL v3</span>
+                    </div>
+                    <span class="copyright">Copyright <i class="fa-regular fa-copyright"></i> 2024 github.com/TheWitcher1991</span>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<main id="wrapper">
+
+    <div class="window__button" style="-webkit-app-region: drag">
+        <div style="-webkit-app-region: no-drag;font-size: 15px" class="info-button top-bth-f"><i class="fa-regular fa-circle-info"></i></div>
+        <div style="-webkit-app-region: no-drag" id="minimize-button" class="minimize-button top-bth-f"><i class="fa-solid fa-window-minimize"></i></div>
+        <div style="-webkit-app-region: no-drag" id="close-button" class="close-button top-bth-f"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+
+    <section class="form">
+        <div class="container">
+
+            <label class="label__form" for="component__1">
+                <span>Компонент № 1</span>
+                <input type="text" class="component__1" id="component__1" value="Затраты на продвижение" />
+            </label>
+
+            <label class="label__form" for="component__value__1">
+                <span>Данные № 1</span>
+                <input type="text" class="component__value__1" id="component__value__1" value="1500; 1650; 2100; 2460; 2820; 3000; 3360; 3540; 3840; 3950" />
+            </label>
+
+            <label class="label__form" for="component__2">
+                <span>Компонент № 2</span>
+                <input type="text" class="component__2" id="component__2" value="Количество покупателей" />
+            </label>
+
+            <label class="label__form" for="component__value__2">
+                <span>Данные № 2</span>
+                <input type="text" class="component__value__2" id="component__value__2" value="72; 75; 80; 82; 80; 88; 95; 87; 92; 98" />
+            </label>
+
+            <label class="label__form" for="component__value__2">
+                <span>Доверительная вероятность</span>
+                <input type="text" class="dov" id="dov" value="0.05" />
+            </label>
+
+
+            <div class="tb__flex">
+                <button type="button" class="button__send tb__apply">Отправить</button>
+                <button type="button" class="button__reset tb__back">Сбросить</button>
+            </div>
+
+
+        </div>
+    </section>
+
+    <section class="section__result">
+        <div class="container">
+            <div class="result">
+                <div class="rasp__result">
+
+                    <div class="v1">
+
+                    </div>
+
+                    <div class="v2"></div>
+
+                </div>
+                <div class="chart__result">
+                    <div id="chart"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<script defer src="./public/static/script.bundle.js"></script>
+<script src="./libs/ApexCharts/apexcharts.min.js"></script>
+
+</body>
+</html>

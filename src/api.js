@@ -19,17 +19,6 @@
 
     const sum = (numbers, f = 1) => numbers.reduce((acc, number) => acc + number ** f)
 
-    // Коэф уравнения A
-    const Ka = (X, Y) => {
-        let Z = 0
-
-        X.map((el, i) => {
-            Z += X[i] * Y[i]
-        })
-
-        return ((X.length * Z - sum(X, 1) * sum(Y, 1)) / (X.length * sum(X, 2) - sum(X, 1) ** 2)).toFixed(2)
-    }
-
     // Ковариации
     const covariance = (arr1, arr2) => {
         const Z1 = average(arr1);
@@ -37,15 +26,23 @@
         return arr1.reduce((a, b, i) => a + (b - Z1) * (arr2[i] - Z2), 0) / arr1.length;
     }
 
-    // Коэф уравнения B
-    const Kb = (X, Y) => {
-        let Z = 0
+    // Уравнение регрессии
+    const regression = (Xs, Ys) => {
+        let avX = average(Xs),
+            avY = average(Ys)
 
-        X.map((el, i) => {
-            Z += X[i] * Y[i]
-        })
+        let covarianceX = 0,
+            varianceX = 0
 
-        return ((sum(Y, 1) * sum(X, 2) - sum(X, 1) * Z) / (X.length * sum(X, 2) - sum(X, 1) ** 2)).toFixed(2)
+        for (let i = 0; i < Xs.length; i++) {
+            covarianceX += covariance(Xs, Ys)
+            varianceX += Math.pow(Xs[i] - avX, 2)
+        }
+
+        return {
+            slope: covarianceX / varianceX,
+            intercept: avY - (covarianceX / varianceX) * avX,
+        }
     }
 
     // Дисперсия
@@ -73,9 +70,7 @@
         return (R1 / Math.sqrt(R2 * R3)).toFixed(f)
     }
 
-    // отклонение
-
-    // ошибка репрезентативности
+    // Ошибка репрезентативности
     const representativeness = (arr) => deviation(dispersion(arr)) / Math.sqrt(arr.length)
 
     // t-статистика Стьюдента
@@ -87,10 +82,13 @@
     )).toFixed(3)
 
     // Нормированный R-квадрат
-    const normalCorrelation = (R, n) => (1 - (1 - R) * ((n - 1) / (n - 1 - 1))).toFixed(9)
+    const normalCorrelation = (R, n) => (1 - (1 - R) * (n - 1) / (n - 2)).toFixed(9)
 
     // Стандартная ошибка
     const SE = (des, R, n) => Math.sqrt(des * (1 - R) / n).toFixed(9)
+
+    // Фактическое значение F-критерия Фишера
+    const fValue= (R, n) => (R / (1 - R)) * ((n - 2))
 
     document.querySelector('.button__reset').addEventListener('click', e => {
         document.querySelector('.v1').innerHTML = ''
@@ -113,18 +111,20 @@
         // Дисперсионный анализ
         let correlationCoff = correlation(Xs, Ys),
             tstat = tStat(correlationCoff, Xs.length),
-            ka = Ka(Xs, Ys),
-            kb = Kb(Xs, Ys),
+            ka = regression(Xs, Ys).slope.toFixed(2),
+            kb = regression(Xs, Ys).intercept.toFixed(2),
             dis = dispersion(Xs),
             dev = deviation(dis),
-            trasp = tCorrelation(Xs, Ys)
+            trasp = tCorrelation(Xs, Ys),
+            predicted = (regression(Xs, Ys).slope * Xs.length + regression(Xs, Ys).intercept).toFixed(2)
 
         // Регрессионная статистика
         let disY = dispersion(Ys),
             R1 = correlation(Xs, Ys, 9),
             R2 = (R1 ** 2).toFixed(9),
             se = SE(disY, R2 ** 2, Xs.length),
-            R3 = normalCorrelation(R2, Xs.length)
+            R3 = normalCorrelation(R2, Xs.length),
+            fvalue = fValue(R2, Xs.length).toFixed(9)
 
         let v1 = ` 
         <h3>Дисперсионный анализ</h3>
@@ -133,9 +133,10 @@
         <div class="ctx">Коэф. уравнения A: <span>${ka}</span></div>
         <div class="ctx">Коэф. уравнения B: <span>${kb}</span></div>
         <div class="ctx">Уравнение регрессии: <span>y = ${ka}x + ${kb}</span></div>
+         <div class="ctx">Прогнозируемое значение (x = ${Xs.length}): <span>y = ${predicted}</span></div>
         <div class="ctx">Доверительная вероятность: <span>${dov.value}</span></div>
         <div class="ctx">Число степеней свободы: <span>${Xs.length}</span></div>
-        <div class="ctx">t-критерий Стьюдента: <span>${trasp}</span></div>
+        <div class="ctx">Табл. значение t-статистики Стьюдента: <span>${trasp}</span></div>
         <div class="ctx">Дисперсия: <span>${dis}</span></div>
         <div class="ctx">Среднее квадратичное отклонение: <span>${dev}</span></div>
         `
@@ -145,6 +146,7 @@
         <div class="ctx">Множественный R: <span>${R1}</span></div>
         <div class="ctx">R-квадрат: <span>${R2}</span></div>
         <div class="ctx">Нормированный R-квадрат: <span>${R3}</span></div>
+        <div class="ctx">F-критерий Фишера: <span>${fvalue}</span></div>
         <div class="ctx">Стандартная ошибка: <span>${se}</span></div>
         <div class="ctx">Наблюдения: <span>${Xs.length}</span></div>
         `
@@ -187,7 +189,7 @@
                 }
             },
             title: {
-                text: 'Корреляционное поле\n',
+                text: `Корреляционное поле y = ${ka}x + ${kb}`,
                 align: 'left',
                 style: {
                     color: "#111"

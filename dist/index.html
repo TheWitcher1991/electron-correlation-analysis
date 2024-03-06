@@ -48,6 +48,89 @@
         <div style="-webkit-app-region: no-drag" id="close-button" class="close-button top-bth-f"><i class="fa-solid fa-xmark"></i></div>
     </div>
 
+    <section class="file__upload">
+        <div class="container">
+            <div class="file__upload-container">
+                <div class="file__upload-label">
+                    <label for="file" class="lk__upload">
+                        <input
+                                type="file"
+                                id="file"
+                                accept=".xlsx, .xlsm, .xlsb, .xltx"
+                        />
+                        <label for="file">
+                            <i class="fa-regular fa-upload"></i>
+                            <span>Выберите файл</span>
+                            <p>
+                                XLSX, XLSM, XLSB, XLTX —  один файл
+                                <br />
+                                Два массива данных
+                            </p>
+                        </label>
+                    </label>
+                </div>
+                <div class="file__upload-info">
+                    <h2>Формат данных в excel</h2>
+                    <div class="excel">
+                        <div class="excel__nav"><i class="fa-regular fa-file-excel"></i></div>
+                        <div class="excel__content">
+                            <div class="excel__table">
+                                <div class="excel__rows">
+                                    <div class="excel__point excel__word"></div>
+                                    <div class="excel__flex excel__point excel__title">A</div>
+                                    <div class="excel__flex excel__point excel__title">B</div>
+                                    <div class="excel__flex excel__point excel__title">C</div>
+                                </div>
+                                <div class="excel__rows">
+                                    <div class="excel__point excel__word">1</div>
+                                    <div class="excel__flex excel__point excel__text">NAME #1</div>
+                                    <div class="excel__flex excel__point excel__text">NAME #2</div>
+                                    <div class="excel__flex excel__point excel__text"></div>
+                                </div>
+                                <div class="excel__rows">
+                                    <div class="excel__point excel__word">2</div>
+                                    <div class="excel__flex excel__point excel__text">1500</div>
+                                    <div class="excel__flex excel__point excel__text">72</div>
+                                    <div class="excel__flex excel__point excel__text"></div>
+                                </div>
+                                <div class="excel__rows">
+                                    <div class="excel__point excel__word">3</div>
+                                    <div class="excel__flex excel__point excel__text">1650</div>
+                                    <div class="excel__flex excel__point excel__text">75</div>
+                                    <div class="excel__flex excel__point excel__text"></div>
+                                </div>
+                                <div class="excel__rows">
+                                    <div class="excel__point excel__word">4</div>
+                                    <div class="excel__flex excel__point excel__text">2100</div>
+                                    <div class="excel__flex excel__point excel__text">80</div>
+                                    <div class="excel__flex excel__point excel__text"></div>
+                                </div>
+                                <div class="excel__rows">
+                                    <div class="excel__point excel__word">5</div>
+                                    <div class="excel__flex excel__point excel__text">2460</div>
+                                    <div class="excel__flex excel__point excel__text">82</div>
+                                    <div class="excel__flex excel__point excel__text"></div>
+                                </div>
+                                <div class="excel__rows">
+                                    <div class="excel__point excel__word">6</div>
+                                    <div class="excel__flex excel__point excel__text">2820</div>
+                                    <div class="excel__flex excel__point excel__text">80</div>
+                                    <div class="excel__flex excel__point excel__text"></div>
+                                </div>
+                                <div class="excel__rows">
+                                    <div class="excel__point excel__word">7</div>
+                                    <div class="excel__flex excel__point excel__text">...</div>
+                                    <div class="excel__flex excel__point excel__text">...</div>
+                                    <div class="excel__flex excel__point excel__text"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="form">
         <div class="container">
 
@@ -77,14 +160,17 @@
             </label>
 
 
-            <div class="tb__flex">
-                <button type="button" class="button__send tb__apply">Отправить</button>
-                <button type="button" class="button__reset tb__back">Сбросить</button>
-            </div>
-
-
         </div>
     </section>
+
+    <div class="section__button">
+        <div class="container">
+            <div class="button__container">
+                <button type="button" class="button__save tb__apply">Сохранить</button>
+                <button type="button" class="button__reset tb__back">Сбросить</button>
+            </div>
+        </div>
+    </div>
 
     <section class="section__result">
         <div class="container">
@@ -108,8 +194,10 @@
 
 </main>
 
-<script defer src="./public/static/script.bundle.js"></script>
+<script src="./libs/ExcelJS/exceljs.min.js"></script>
+<script src="./libs/FileSaver/filesaver.min.js"></script>
 <script src="./libs/ApexCharts/apexcharts.min.js"></script>
+<script defer src="./public/static/script.bundle.js"></script>
 
 </body>
 </html>
